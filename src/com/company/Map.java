@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,13 +11,20 @@ public class Map {
     Animal[] animal;
 
     //constructor
-    public Map(int animals) {
+    public Map() {
 
-        animal = new Animal[animals];
 
     }
 
-    public int [][] getPosition() {
+    public void Menu() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter number of animals");
+        int noOfAnimal = scan.nextInt();
+//        map= new Map(noOfAnimal);
+        animal = new Animal[noOfAnimal];
+    }
+
+    public int[][] getPosition() {
         int numCheetah = random.nextInt((animal.length / 2)) + 1;
         int numZebra = (animal.length - numCheetah);
         int countCheetah = 0;
@@ -46,10 +54,12 @@ public class Map {
         } while (countZebra != numZebra);
         return position;
     }
-    public void makeMap(){
+
+    public void makeMap() {
+        position = getPosition();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                System.out.print(getPosition() + "   ");
+                System.out.printf("%d ",position [i][j] );
             }
             System.out.println();
         }
@@ -59,14 +69,15 @@ public class Map {
             System.out.printf("%d    %d%n", a.getX() + 1, a.getY());
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
-                    System.out.print(getPosition() + "   ");
+                    System.out.print(position[i][j] + "   ");
                 }
                 System.out.println();
             }
         }
 
     }
-//    public Animal [][] getPosition() {
+
+    //    public Animal [][] getPosition() {
 //        int numCheetah = random.nextInt((animal.length / 2)) + 1;
 //        int numZebra = (animal.length - numCheetah);
 //        int countCheetah = 0;
@@ -107,3 +118,4 @@ public class Map {
     }
 
 }
+

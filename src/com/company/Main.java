@@ -7,7 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
         GameEngine e = new GameEngine();
-        Map map  = new Map(e.Menu());
+        Map map  = new Map();
+        map.Menu();
         map.makeMap();
     }
 
