@@ -1,16 +1,16 @@
 package com.company;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
+    int count = 0;
 
     public static void main(String[] args) {
-        // write your code here
-        int count = 0;
         int[][] pos = new int[10][10];
-        Map map = new Map(10);
-        pos = map.startPosition();
-        Random r = new Random();
+
+        Map map = new Map(3);
+        pos = map.getPosition();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 System.out.printf("%d  ", pos[i][j]);
@@ -18,18 +18,18 @@ public class Main {
             }
             System.out.println();
         }
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (pos[i][j] != 0) {
-                    count++;
 
+        for (Animal a : map.getAnimal()) {
+            System.out.println(a);
+            System.out.printf("%d    %d%n", a.getX(), a.getY());
+            System.out.printf("%d    %d%n", a.getX() + 1, a.getY());
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    System.out.printf("%d  ", pos[i][j]);
                 }
+                System.out.println();
             }
         }
-        System.out.println(count);
-        for(Animal a: map.getAnimal()){
-            System.out.println(a);
-        }
-
     }
+
 }
