@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Random;
+
 public abstract class Animal implements Position {
     int x, y;
 
@@ -29,7 +31,9 @@ public abstract class Animal implements Position {
     }
 
     public void move() {
-        y= getY()+1;
+        Random r = new Random();
+        y= getY()+r.nextInt(2);
+
     }
     public String toString(){
         return String.format("");
