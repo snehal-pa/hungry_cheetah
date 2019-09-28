@@ -6,9 +6,15 @@ import java.util.Scanner;
 
 public class Map {
     Random random = new Random();
-    private int[][] position = new int[10][10];
-    private Animal[][] posAnimal = new Animal[10][10];
-    Animal[] animal;
+    private final int r = 10;
+    private final int c = 10;
+    //private int[][] position = new int[r][c];
+    private Animal[][] posAnimal = new Animal[r][c];
+    Animal[] zebra;
+    Animal[] cheetah;
+    int numAnimals;
+    int numCheetah;
+    int numZebra;
 
     //constructor
     public Map() {
@@ -16,65 +22,94 @@ public class Map {
 
     }
 
-    public void Menu() {
+    public void menu() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter number of animals");
-        int noOfAnimal = scan.nextInt();
-//        map= new Map(noOfAnimal);
-        animal = new Animal[noOfAnimal];
+        numAnimals = scan.nextInt();
+        numCheetah = random.nextInt((numAnimals / 3)) + 1;
+        numZebra = (numAnimals - numCheetah);
+        int countCheetah = 0;
+        int countZebra = 0;
+        zebra = new Zebra[numZebra];
+        cheetah = new Cheetah[numCheetah];
     }
 
-    public int[][] getPosition() {
-        int numCheetah = random.nextInt((animal.length / 2)) + 1;
-        int numZebra = (animal.length - numCheetah);
+    private void initializeMap() {
         int countCheetah = 0;
         int countZebra = 0;
         do {
-            int j = random.nextInt(100);
-            int row = j / 10;
-            int col = j % 10;
-            if (position[row][col] == 0) {
-                position[row][col] = 1;
-                animal[countCheetah] = new Cheetah(row, col);
+            int j = random.nextInt(r * c);
+            int x = j / r;
+            int y = j % c;
+            if (posAnimal[x][y] == null) {
+                posAnimal[x][y] = new Cheetah(x, y, this.r, this.c);
+                cheetah[countCheetah] = posAnimal[x][y];
                 countCheetah++;
             }
-
         } while (countCheetah != numCheetah);
 
         do {
-            int j = random.nextInt(100);
-            int row = j / 10;
-            int col = j % 10;
-            if (position[row][col] == 0) {
-                position[row][col] = 2;
-                animal[countCheetah] = new Zebra(row, col);
+            int j = random.nextInt(r * c);
+            int x = j / r;
+            int y = j % c;
+            if (posAnimal[x][y] == null) {
+                posAnimal[x][y] = new Zebra(x, y, this.r, this.c);
+                zebra[countZebra] = posAnimal[x][y];
                 countZebra++;
-                countCheetah++;
             }
         } while (countZebra != numZebra);
-        return position;
     }
 
     public void makeMap() {
-        position = getPosition();
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                System.out.printf("%d ",position [i][j] );
+        initializeMap();
+        printMap();
+//        for (Animal c : getCheetah()) {
+//            System.out.println(c);
+//            System.out.printf("%d    %d%n", c.getX(), c.getY());
+//        }
+//        for (Animal z : getZebra()) {
+//            System.out.println(z);
+//            System.out.printf("%d    %d%n", z.getX(), z.getY());
+//        }
+
+    }
+
+    public void startMoving() {
+        for (int i = 0; i < cheetah.length; i++) {
+            cheetah[i].move();
+        }
+        for (int i = 0; i < zebra.length; i++) {
+            zebra[i].move();
+        }
+        updateMap();
+    }
+
+    private void updateMap() {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                posAnimal[i][j] = null;
+            }
+        }
+        for (int i = 0; i < cheetah.length; i++) {
+            posAnimal[cheetah[i].getX()][cheetah[i].getY()] = cheetah[i];
+        }
+        for (int i = 0; i < zebra.length; i++) {
+            posAnimal[zebra[i].getX()][zebra[i].getY()] = zebra[i];
+        }
+
+    }
+
+    public void printMap() {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (posAnimal[i][j] == null) {
+                    System.out.print("O" + "\t");
+                } else {
+                    System.out.print(posAnimal[i][j] + "\t");
+                }
             }
             System.out.println();
         }
-        for (Animal a : getAnimal()) {
-            System.out.println(a);
-            System.out.printf("%d    %d%n", a.getX(), a.getY());
-            System.out.printf("%d    %d%n", a.getX() + 1, a.getY());
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    System.out.print(position[i][j] + "   ");
-                }
-                System.out.println();
-            }
-        }
-
     }
 
     //    public Animal [][] getPosition() {
@@ -108,13 +143,15 @@ public class Map {
 //        return posAnimal;
 //    }
 //
-    public void setNewPosition() {
 
+    public Animal[] getZebra() {
+
+        return zebra;
     }
 
-    public Animal[] getAnimal() {
+    public Animal[] getCheetah() {
 
-        return animal;
+        return cheetah;
     }
 
 }

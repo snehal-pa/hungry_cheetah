@@ -6,10 +6,14 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        GameEngine e = new GameEngine();
-        Map map  = new Map();
-        map.Menu();
+        Map map = new Map();
+        map.menu();
         map.makeMap();
+        map.startMoving();
+        System.out.println();
+        map.printMap();
+
+        //GameEngine e = new GameEngine();
     }
 
 }

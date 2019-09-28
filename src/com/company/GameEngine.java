@@ -4,10 +4,14 @@ import java.util.Scanner;
 
 public class GameEngine {
     int noOfAnimal;
-    Map map;
+    Map map  = new Map();
 
 
 
-    public void newPos(){
+    public void startGameEngine(){
+       // map.menu();
+        map.makeMap();
+        map.startMoving();
+
     }
 }

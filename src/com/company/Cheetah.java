@@ -1,11 +1,11 @@
 package com.company;
 
 public class Cheetah extends Animal {
-    public Cheetah(int x, int y) {
-        super(x, y);
+    public Cheetah(int x, int y,int r,int c) {
+        super(x, y,r,c);
     }
     public String toString(){
-        return String.format("Cheetah");
+        return String.format("C");
     }
 
 
