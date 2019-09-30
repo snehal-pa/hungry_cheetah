@@ -37,15 +37,15 @@ public abstract class Animal implements Position {
         Random r = new Random();
         int dir = r.nextInt(4);
         int numSteps;
-        if (dir == dirUp || dir == dirDown) {
-            numSteps = r.nextInt(this.row + 1);
-        } else {
-            numSteps = r.nextInt(this.col + 1);
-        }
+//        if (dir == dirUp || dir == dirDown) {
+//            numSteps = r.nextInt(this.row + 1);
+//        } else {
+//            numSteps = r.nextInt(this.col + 1);
+//        }
+//
+        System.out.printf("%d %d %d\n", x, y, dir);
 
-        System.out.printf("%d %d %d %d\n", x, y, numSteps, dir);
-
-        for (int i = 0; i < numSteps; i++) {
+//        for (int i = 0; i < numSteps; i++) {
             if (this.x == 0 && this.y == 0 && dir == this.dirUp) {
                 dir = this.dirRight;
 
@@ -99,11 +99,11 @@ public abstract class Animal implements Position {
                 default:
                     break;
             }
-        }
+ //       }
     }
 
 
     public String toString() {
-        return String.format("O");
+        return String.format("");
     }
 }

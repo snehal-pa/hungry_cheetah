@@ -26,7 +26,7 @@ public class Map {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter number of animals");
         numAnimals = scan.nextInt();
-        numCheetah = random.nextInt((numAnimals / 3)) + 1;
+        numCheetah = random.nextInt((numAnimals / 2)) + 1;
         numZebra = (numAnimals - numCheetah);
         int countCheetah = 0;
         int countZebra = 0;
@@ -63,15 +63,6 @@ public class Map {
     public void makeMap() {
         initializeMap();
         printMap();
-//        for (Animal c : getCheetah()) {
-//            System.out.println(c);
-//            System.out.printf("%d    %d%n", c.getX(), c.getY());
-//        }
-//        for (Animal z : getZebra()) {
-//            System.out.println(z);
-//            System.out.printf("%d    %d%n", z.getX(), z.getY());
-//        }
-
     }
 
     public void startMoving() {
@@ -112,37 +103,10 @@ public class Map {
         }
     }
 
-    //    public Animal [][] getPosition() {
-//        int numCheetah = random.nextInt((animal.length / 2)) + 1;
-//        int numZebra = (animal.length - numCheetah);
-//        int countCheetah = 0;
-//        int countZebra = 0;
-//        do {
-//            int j = random.nextInt(100);
-//            int row = j / 10;
-//            int col = j % 10;
-//            if (posAnimal[row][col] == null) {
-//                posAnimal[row][col] = new Cheetah(row,col);
-//                animal[countCheetah] = new Cheetah(row, col);
-//                countCheetah++;
-//            }
-//
-//        } while (countCheetah != numCheetah);
-//
-//        do {
-//            int j = random.nextInt(100);
-//            int row = j / 10;
-//            int col = j % 10;
-//            if (posAnimal[row][col] == null) {
-//                posAnimal[row][col] = new Zebra(row,col);
-//                animal[countCheetah] = new Zebra(row, col);
-//                countZebra++;
-//                countCheetah++;
-//            }
-//        } while (countZebra != numZebra);
-//        return posAnimal;
-//    }
-//
+    public void eatZebra() {
+        for (int i = 0; i < r; i++) {
+        }
+    }
 
     public Animal[] getZebra() {
 
