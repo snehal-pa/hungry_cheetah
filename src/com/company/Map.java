@@ -77,21 +77,24 @@ public class Map {
                     zebra[j] = zebra[zebra.length-1];
                     numZebra--;
                     System.out.println("zebra died");
+                    for(Animal z: zebra){
+                        System.out.print(z+"\t");
+                    }
                 }
             }
         }
 
-//        for (int i = 0; i < zebra.length; i++) {
-//            zebra[i].move();
-//        }
-//        for (int i = 0; i < zebra.length; i++) {
-//            for (int j = 0; j < cheetah.length; j++) {
-//                if (posAnimal[zebra[i].getX()][zebra[i].getY()] == cheetah[j]) {
-//                    posAnimal[zebra[i].getX()][zebra[i].getY()] = null;
-//                    System.out.println("zebra died");
-//                }
-//            }
-//        }
+        for (int i = 0; i < zebra.length; i++) {
+            zebra[i].move();
+        }
+        for (int i = 0; i < zebra.length; i++) {
+            for (int j = 0; j < cheetah.length; j++) {
+                if (posAnimal[zebra[i].getX()][zebra[i].getY()] == cheetah[j]) {
+                    posAnimal[zebra[i].getX()][zebra[i].getY()] = null;
+                    System.out.println("zebra died");
+                }
+            }
+        }
 
         updateMap();
     }
