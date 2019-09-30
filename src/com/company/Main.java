@@ -9,11 +9,11 @@ public class Main {
         Map map = new Map();
         map.menu();
         map.makeMap();
-      //  for (; ; ) {
+//        for (; ; ) {
             map.startMoving();
             System.out.println();
             map.printMap();
-      //  }
+//       }
         //GameEngine e = new GameEngine();
     }
 

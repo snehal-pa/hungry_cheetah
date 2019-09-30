@@ -43,7 +43,7 @@ public abstract class Animal implements Position {
 //            numSteps = r.nextInt(this.col + 1);
 //        }
 //
-        System.out.printf("%d %d %d\n", x, y, dir);
+        //System.out.printf("%d %d %d\n", x, y, dir);
 
 //        for (int i = 0; i < numSteps; i++) {
             if (this.x == 0 && this.y == 0 && dir == this.dirUp) {
