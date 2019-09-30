@@ -74,24 +74,24 @@ public class Map {
         for (int i = 0; i < cheetah.length; i++) {
             for (int j = 0; j < zebra.length; j++) {
                 if (posAnimal[cheetah[i].getX()][cheetah[i].getY()] == zebra[j]) {
-                    posAnimal[zebra[j].getX()][zebra[j].getY()] = null;
+                    zebra[j] = zebra[zebra.length-1];
+                    numZebra--;
                     System.out.println("zebra died");
                 }
             }
         }
 
-        for (int i = 0; i < zebra.length; i++)
-        {
-            zebra[i].move();
-        }
-        for (int i = 0; i < zebra.length; i++) {
-            for (int j = 0; j < cheetah.length; j++) {
-                if (posAnimal[zebra[i].getX()][zebra[i].getY()] == cheetah[j]) {
-                    posAnimal[zebra[i].getX()][zebra[i].getY()] = null;
-                    System.out.println("zebra died");
-                }
-            }
-        }
+//        for (int i = 0; i < zebra.length; i++) {
+//            zebra[i].move();
+//        }
+//        for (int i = 0; i < zebra.length; i++) {
+//            for (int j = 0; j < cheetah.length; j++) {
+//                if (posAnimal[zebra[i].getX()][zebra[i].getY()] == cheetah[j]) {
+//                    posAnimal[zebra[i].getX()][zebra[i].getY()] = null;
+//                    System.out.println("zebra died");
+//                }
+//            }
+//        }
 
         updateMap();
     }
@@ -132,13 +132,13 @@ public class Map {
             }
             System.out.println();
         }
-       // countZC();
+        // countZC();
 
     }
 
     public void countZC() {
         int ch = 0, ze = 0;
-        int count=0;
+        int count = 0;
         do {
             for (int i = 0; i < r; i++) {
                 for (int j = 0; j < c; j++) {
@@ -148,8 +148,8 @@ public class Map {
                 }
             }
             count++;
-        }while (count <zebra.length);
-        count=0;
+        } while (count < zebra.length);
+        count = 0;
         do {
             for (int i = 0; i < r; i++) {
                 for (int j = 0; j < c; j++) {
@@ -159,8 +159,8 @@ public class Map {
                 }
             }
             count++;
-        }while (count<cheetah.length);
-        System.out.println("Zebra: "+ze +" cheetah:"+ch);
+        } while (count < cheetah.length);
+        System.out.println("Zebra: " + ze + " cheetah:" + ch);
 
         ;
 
