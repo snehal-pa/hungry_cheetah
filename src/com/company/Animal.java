@@ -3,7 +3,7 @@ package com.company;
 import java.util.Random;
 
 public abstract class Animal implements Position {
-    protected int x, y, row, col;
+    protected int x, y, row, col, dir;
 
 //    protected final int dirUp = 0;
 //    protected final int dirRight = 1;
@@ -105,11 +105,20 @@ public abstract class Animal implements Position {
 //    }
 
     public void setFull(boolean b) {
-        full = b;
+
+        this.full = b;
     }
 
     public boolean isFull() {
         return full;
+    }
+
+    public void setDir(int dir) {
+        this.dir = dir;
+    }
+
+    public int getDir() {
+        return dir;
     }
 
 

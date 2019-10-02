@@ -15,7 +15,7 @@ public class Zebra extends Animal {
     @Override
         public void move() {
             Random r = new Random();
-            int dir = r.nextInt(4);
+            dir = r.nextInt(4);
             int numSteps;
 //        if (dir == dirUp || dir == dirDown) {
 //            numSteps = r.nextInt(this.row + 1);

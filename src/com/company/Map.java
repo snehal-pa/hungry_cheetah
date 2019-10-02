@@ -84,14 +84,15 @@ public class Map {
         }
         for (int i = 0; i < cheetah.length; i++) {
             for (int j = 0; j < zebra.size(); j++) {
-                if (cheetah[i].getX() == zebra.get(j).getX() && cheetah[i].getY() == zebra.get(j).getY() && !cheetah[i].isFull()) {
+                if (cheetah[i].getX() == zebra.get(j).getX() && cheetah[i].getY() == zebra.get(j).getY() && cheetah[i].isFull() == false) {
                     zebra.remove(zebra.get(j));
                     System.out.println("zebra died");
                     cheetah[i].setFull(true);
+                    System.out.printf("Full: %b%n", cheetah[i].isFull());
                 }
             }
             for (Animal z : zebra) {
-                System.out.print(z + "\t");
+                System.out.print("\n" + z + "\t");
             }
         }
     }
@@ -99,18 +100,41 @@ public class Map {
     private void moveZebra() {
 //        ArrayList<Animal> zeb = new ArrayList<>(Arrays.asList(zebra));
 //               zebra = zebra.toArray(new Zebra[zebra.size()]);
-        oldX = new int[zebra.size()];
-        oldY = new int[zebra.size()];
-
-        for (int i = 0; i < zebra.size(); i++) {
-            oldX[i] = zebra.get(i).getX();
-            oldY[i] = zebra.get(i).getY();
-        }
+//        oldX = new int[zebra.size()];
+//        oldY = new int[zebra.size()];
+//
+//        for (int i = 0; i < zebra.size(); i++) {
+//            oldX[i] = zebra.get(i).getX();
+//            oldY[i] = zebra.get(i).getY();
+//        }
 
 
         for (int i = 0; i < zebra.size(); i++) {
             zebra.get(i).move();
+
         }
+
+//        for (int i = 0; i < zebra.size(); i++) {
+//            if ((posAnimal[zebra.get(i).getX() - 1][zebra.get(i).getY()] != null)){
+//                zebra.get(i).move();
+//                if(zebra.get(i).getDir()==Position.dirUp){
+//                    zebra.get(i).setX(zebra.get(i).getX()+1);
+//                }
+//            }
+//            if ((posAnimal[zebra.get(i).getX()][zebra.get(i).getY()+1] != null)){
+//                zebra.get(i).move();
+//                if(zebra.get(i).getDir()==Position.dirRight){
+//                    zebra.get(i).setY(zebra.get(i).getY()-1);
+//                }
+//            }
+//            if ((posAnimal[zebra.get(i).getX()+1][zebra.get(i).getY()] != null)){
+//                zebra.get(i).move();
+//                if(zebra.get(i).getDir()==Position.dirDown){
+//                    zebra.get(i).setX(zebra.get(i).getX()-1);
+//                }
+//            }
+//
+//        }
 
         for (int i = 0; i < zebra.size(); i++) {
             for (int j = 0; j < cheetah.length; j++) {
