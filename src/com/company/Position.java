@@ -1,8 +1,12 @@
 package com.company;
 
 public interface Position {
-    int x = 0;
-    int y = 0;
 
+     int dirUp = 0;
+     int dirRight = 1;
+     int dirDown = 2;
+     int dirLeft = 3;
 
+     String toString();
+     void move();
 }

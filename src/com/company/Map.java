@@ -1,20 +1,25 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.zip.ZipFile;
 
 public class Map {
     Random random = new Random();
-    private final int r = 4;
-    private final int c = 4;
+    private final int r = 5;
+    private final int c = 5;
     //private int[][] position = new int[r][c];
     private Animal[][] posAnimal = new Animal[r][c];
-    Animal[] zebra;
+    ArrayList<Animal> zebra = new ArrayList<Animal>();
+    // Animal[] zebra;
     Animal[] cheetah;
     int numAnimals;
     int numCheetah;
     int numZebra;
+    int[] oldX;
+    int[] oldY;
 
     //constructor
     public Map() {
@@ -30,9 +35,7 @@ public class Map {
         numZebra = (numAnimals - numCheetah);
         System.out.println("Zebra:" + numZebra);
         System.out.println("Cheetah:" + numCheetah);
-        int countCheetah = 0;
-        int countZebra = 0;
-        zebra = new Zebra[numZebra];
+        //zebra = new Zebra[numZebra];
         cheetah = new Cheetah[numCheetah];
     }
 
@@ -56,7 +59,8 @@ public class Map {
             int y = j % c;
             if (posAnimal[x][y] == null) {
                 posAnimal[x][y] = new Zebra(x, y, this.r, this.c);
-                zebra[countZebra] = posAnimal[x][y];
+                //zebra[countZebra] = posAnimal[x][y];
+                zebra.add(posAnimal[x][y]);
                 countZebra++;
             }
         } while (countZebra != numZebra);
@@ -68,47 +72,61 @@ public class Map {
     }
 
     public void startMoving() {
+
+        moveCheetah();
+        moveZebra();
+        updateMap();
+    }
+
+    private void moveCheetah() {
         for (int i = 0; i < cheetah.length; i++) {
             cheetah[i].move();
         }
         for (int i = 0; i < cheetah.length; i++) {
-            for (int j = 0; j < zebra.length; j++) {
-                if (posAnimal[cheetah[i].getX()][cheetah[i].getY()] == zebra[j]) {
-                    zebra[j] = zebra[zebra.length-1];
-                    numZebra--;
+            for (int j = 0; j < zebra.size(); j++) {
+                if (cheetah[i].getX() == zebra.get(j).getX() && cheetah[i].getY() == zebra.get(j).getY() && !cheetah[i].isFull()) {
+                    zebra.remove(zebra.get(j));
                     System.out.println("zebra died");
-                    for(Animal z: zebra){
-                        System.out.print(z+"\t");
-                    }
+                    cheetah[i].setFull(true);
                 }
             }
-        }
-
-        for (int i = 0; i < zebra.length; i++) {
-            zebra[i].move();
-        }
-        for (int i = 0; i < zebra.length; i++) {
-            for (int j = 0; j < cheetah.length; j++) {
-                if (posAnimal[zebra[i].getX()][zebra[i].getY()] == cheetah[j]) {
-                    posAnimal[zebra[i].getX()][zebra[i].getY()] = null;
-                    System.out.println("zebra died");
-                }
+            for (Animal z : zebra) {
+                System.out.print(z + "\t");
             }
         }
-
-        updateMap();
     }
 
-//    public boolean eaten() {
-//        for (int i = 0; i < cheetah.length; i++) {
-//            for (int j = 0; j < zebra.length; j++) {
-//                if (posAnimal[cheetah[i].getX()][cheetah[i].getY()] == posAnimal[zebra[i].getX()][zebra[i].getY()]) {
-//                    System.out.println("zebra died");
-//                }
-//            }
-//        }
-//        return true;
-//    }
+    private void moveZebra() {
+//        ArrayList<Animal> zeb = new ArrayList<>(Arrays.asList(zebra));
+//               zebra = zebra.toArray(new Zebra[zebra.size()]);
+        oldX = new int[zebra.size()];
+        oldY = new int[zebra.size()];
+
+        for (int i = 0; i < zebra.size(); i++) {
+            oldX[i] = zebra.get(i).getX();
+            oldY[i] = zebra.get(i).getY();
+        }
+
+
+        for (int i = 0; i < zebra.size(); i++) {
+            zebra.get(i).move();
+        }
+
+        for (int i = 0; i < zebra.size(); i++) {
+            for (int j = 0; j < cheetah.length; j++) {
+                if (zebra.get(i).getX() == cheetah[j].getX() && zebra.get(i).getY() == cheetah[j].getY()) {
+                    zebra.remove(zebra.get(i));
+                    System.out.println("zebra died again");
+                }
+            }
+        }
+        for (Animal z : zebra) {
+            System.out.print(z + "\t");
+        }
+        System.out.println();
+
+    }
+
 
     private void updateMap() {
         for (int i = 0; i < r; i++) {
@@ -119,8 +137,8 @@ public class Map {
         for (int i = 0; i < cheetah.length; i++) {
             posAnimal[cheetah[i].getX()][cheetah[i].getY()] = cheetah[i];
         }
-        for (int i = 0; i < zebra.length; i++) {
-            posAnimal[zebra[i].getX()][zebra[i].getY()] = zebra[i];
+        for (int i = 0; i < zebra.size(); i++) {
+            posAnimal[zebra.get(i).getX()][zebra.get(i).getY()] = zebra.get(i);
         }
     }
 
@@ -135,46 +153,9 @@ public class Map {
             }
             System.out.println();
         }
-        // countZC();
-
     }
 
-    public void countZC() {
-        int ch = 0, ze = 0;
-        int count = 0;
-        do {
-            for (int i = 0; i < r; i++) {
-                for (int j = 0; j < c; j++) {
-                    if (posAnimal[i][j] != null && posAnimal[i][j] == zebra[ze]) {
-                        ze++;
-                    }
-                }
-            }
-            count++;
-        } while (count < zebra.length);
-        count = 0;
-        do {
-            for (int i = 0; i < r; i++) {
-                for (int j = 0; j < c; j++) {
-                    if (posAnimal[i][j] != null && posAnimal[i][j] == cheetah[ch]) {
-                        ch++;
-                    }
-                }
-            }
-            count++;
-        } while (count < cheetah.length);
-        System.out.println("Zebra: " + ze + " cheetah:" + ch);
-
-        ;
-
-    }
-
-    public void eatZebra() {
-        for (int i = 0; i < r; i++) {
-        }
-    }
-
-    public Animal[] getZebra() {
+    public ArrayList<Animal> getZebra() {
 
         return zebra;
     }
