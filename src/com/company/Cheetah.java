@@ -3,12 +3,12 @@ package com.company;
 import java.util.Random;
 
 public class Cheetah extends Animal {
-    public Cheetah(int x, int y, int r, int c) {
-        super(x, y, r, c);
+    public Cheetah(int x, int y, int r, int c, int index) {
+        super(x, y, r, c, index);
     }
 
     public String toString() {
-        return String.format("C");
+        return String.format("%S%02d", "C", index);
     }
 
 //    public void move() {

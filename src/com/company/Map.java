@@ -15,7 +15,6 @@ public class Map {
     int numCheetah;
     int numZebra;
     int eatenZebra = 0;
-    boolean allCheetahFull = false;
 
 
     public void menu() {
@@ -35,7 +34,7 @@ public class Map {
             int x = random.nextInt(r);
             int y = random.nextInt(c);
             if (posAnimal[x][y] == null) {
-                posAnimal[x][y] = new Cheetah(x, y, r, c);
+                posAnimal[x][y] = new Cheetah(x, y, r, c, countCheetah);
                 cheetah.add(posAnimal[x][y]);
                 countCheetah++;
             }
@@ -45,7 +44,7 @@ public class Map {
             int x = random.nextInt(r);
             int y = random.nextInt(c);
             if (posAnimal[x][y] == null) {
-                posAnimal[x][y] = new Zebra(x, y, this.r, this.c);
+                posAnimal[x][y] = new Zebra(x, y, this.r, this.c, countZebra);
                 //zebra[countZebra] = posAnimal[x][y];
                 zebra.add(posAnimal[x][y]);
                 countZebra++;
@@ -64,7 +63,7 @@ public class Map {
             moveZebra();
             updateMap();
             printMap();
-            if (zebra.size() < cheetah.size() || isAllCheetahFull() == true) {
+            if (zebra.size() < cheetah.size() || isAllCheetahFull()) {
                 System.out.printf("%d Zebra died", eatenZebra);
                 break;
             }
@@ -95,11 +94,11 @@ public class Map {
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < zebra.size(); j++) {
                 if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && !cheetah.get(i).isFull()) {
+                    System.out.println("zebra died "+zebra.get(j).toString());
                     zebra.remove(zebra.get(j));
-                    System.out.println("zebra died");
                     eatenZebra++;
                     cheetah.get(i).setFull(true);
-                    System.out.printf("Cheetah - %d is full%n", i);
+                    System.out.printf("Cheetah: %s is full%n", cheetah.get(i).toString());
                 }
             }
         }
@@ -116,16 +115,12 @@ public class Map {
     }
 //checking if all cheetahs are full
     public boolean isAllCheetahFull() {
-        int countFullCheetah =0;
         for (int i = 0; i < cheetah.size(); i++) {
-            if (cheetah.get(i).isFull() == true) {
-                countFullCheetah++;
+            if (!cheetah.get(i).isFull()) {
+                return false;
             }
         }
-        if(cheetah.size()==countFullCheetah){
-            allCheetahFull=true;
-        }
-        return allCheetahFull;
+        return true;
     }
 
     private void moveZebra() {
@@ -164,9 +159,19 @@ public class Map {
             }
         }
         for (int i = 0; i < zebra.size(); i++) {
-            posAnimal[zebra.get(i).getX()][zebra.get(i).getY()] = zebra.get(i);
+            int x = zebra.get(i).getX();
+            int y = zebra.get(i).getY();
+//            if (posAnimal[x][y] != null) {
+//                System.out.println("Update zebra: Animal at position: " + x + " "+ y + " " + posAnimal[x][y].toString() + " New animal " + zebra.get(i).toString());
+//            }
+            posAnimal[x][y] = zebra.get(i);
         }
         for (int i = 0; i < cheetah.size(); i++) {
+            int x = cheetah.get(i).getX();
+            int y = cheetah.get(i).getY();
+//            if (posAnimal[x][y] != null) {
+//                System.out.println("Update cheetah: Animal at position: " + x + " " + y + " " + posAnimal[x][y].toString()  + " New animal " + cheetah.get(i).toString());
+//            }
             posAnimal[cheetah.get(i).getX()][cheetah.get(i).getY()] = cheetah.get(i);
         }
     }
@@ -175,7 +180,7 @@ public class Map {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 if (posAnimal[i][j] == null) {
-                    System.out.print("O" + "\t");
+                    System.out.print("OOO"+"\t");
                 } else {
                     System.out.print(posAnimal[i][j] + "\t");
                 }
