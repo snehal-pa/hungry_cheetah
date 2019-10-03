@@ -96,7 +96,7 @@ public class Map {
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < zebra.size(); j++) {
                 if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && !cheetah.get(i).isFull()) {
-                    System.out.printf("zebra:%d died%n ", j);
+                    System.out.printf("zebra died%n ");
                     zebra.remove(zebra.get(j));
                     eatenZebra++;
                     cheetah.get(i).setFull(true);
@@ -132,7 +132,7 @@ public class Map {
             zebra.get(i).move();
 
         }
-        // Checking zebra on zebra
+        // Checking if zebra is moving on Zebra
         for (int i = 0; i < zebra.size(); i++) {
             for (int j = 0; j < zebra.size(); j++) {
                 if (i == j) {
@@ -144,7 +144,7 @@ public class Map {
                 }
             }
         }
-        //checking Zebra on Cheetah
+        //checking if Zebra is moving on  Cheetah
         for (int i = 0; i < zebra.size(); i++) {
             for (int j = 0; j < cheetah.size(); j++) {
                 if (zebra.get(i).getX() == cheetah.get(j).getX() && zebra.get(i).getY() == cheetah.get(j).getY()/* && !cheetah.get(j).isFull()*/) {
