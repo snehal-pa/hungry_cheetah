@@ -5,12 +5,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Map {
-    Random random = new Random();
-    private final int r = 5;
-    private final int c = 5;
-    private Animal[][] posAnimal = new Animal[r][c];
-    ArrayList<Animal> zebra = new ArrayList<Animal>();
-    ArrayList<Animal> cheetah = new ArrayList<Animal>();
+    Random random = new Random(); //initialize an object of Random class
+    private final int r = 5; // constant value row
+    private final int c = 5; //constant value column
+    private Animal[][] posAnimal = new Animal[r][c]; // 2-dimensional array of Animal class with the size of row and column
+    ArrayList<Animal> zebra = new ArrayList<Animal>();  // Zebra arrayList
+    ArrayList<Animal> cheetah = new ArrayList<Animal>(); //Cheetah arrayList
     int numAnimals;
     int numCheetah;
     int numZebra;
@@ -20,9 +20,9 @@ public class Map {
     public void menu() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter number of animals");
-        numAnimals = scan.nextInt();
-        numCheetah = random.nextInt((numAnimals / 2)) + 1;
-        numZebra = (numAnimals - numCheetah);
+        numAnimals = scan.nextInt();                          //prompt to enter total number of animals
+        numCheetah = random.nextInt((numAnimals / 2)) + 1;    // initializing with random number of Cheetah
+        numZebra = (numAnimals - numCheetah);                 //initializing with random number of Zebra
         System.out.println("Zebra:" + numZebra);
         System.out.println("Cheetah:" + numCheetah);
     }
@@ -30,21 +30,24 @@ public class Map {
     private void initializeMap() {
         int countCheetah = 0;
         int countZebra = 0;
+
+        //Filling the map with Cheetahs
         do {
             int x = random.nextInt(r);
             int y = random.nextInt(c);
             if (posAnimal[x][y] == null) {
-                posAnimal[x][y] = new Cheetah(x, y, r, c, countCheetah);
+                posAnimal[x][y] = new Cheetah(x, y, r, c);
                 cheetah.add(posAnimal[x][y]);
                 countCheetah++;
             }
         } while (countCheetah != numCheetah);
 
+        //filling the map with Zebras
         do {
             int x = random.nextInt(r);
             int y = random.nextInt(c);
             if (posAnimal[x][y] == null) {
-                posAnimal[x][y] = new Zebra(x, y, this.r, this.c, countZebra);
+                posAnimal[x][y] = new Zebra(x, y, this.r, this.c);
                 //zebra[countZebra] = posAnimal[x][y];
                 zebra.add(posAnimal[x][y]);
                 countZebra++;
@@ -76,8 +79,7 @@ public class Map {
         for (int i = 0; i < cheetah.size(); i++) {
             cheetah.get(i).move();
         }
-        // Checking cheetah on cheetah
-        //by checking positions x and y
+        // Checking cheetah moving on cheetah by checking coordinate x and y
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < cheetah.size(); j++) {
                 if (i == j) {
@@ -94,11 +96,11 @@ public class Map {
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < zebra.size(); j++) {
                 if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && !cheetah.get(i).isFull()) {
-                    System.out.println("zebra died "+zebra.get(j).toString());
+                    System.out.printf("zebra:%d died%n ", j);
                     zebra.remove(zebra.get(j));
                     eatenZebra++;
                     cheetah.get(i).setFull(true);
-                    System.out.printf("Cheetah: %s is full%n", cheetah.get(i).toString());
+                    System.out.printf("Cheetah:%d is full%n", i);
                 }
             }
         }
@@ -113,7 +115,8 @@ public class Map {
         }
 
     }
-//checking if all cheetahs are full
+
+    //checking if all cheetahs are full
     public boolean isAllCheetahFull() {
         for (int i = 0; i < cheetah.size(); i++) {
             if (!cheetah.get(i).isFull()) {
@@ -123,6 +126,7 @@ public class Map {
         return true;
     }
 
+// moving zebras and checking their coordinates with other zebras and Cheetahs
     private void moveZebra() {
         for (int i = 0; i < zebra.size(); i++) {
             zebra.get(i).move();
@@ -151,14 +155,14 @@ public class Map {
         }
     }
 
-
+// updating map after cheetah and Zebra move
     private void updateMap() {
-        for (int i = 0; i < r; i++) {
+        for (int i = 0; i < r; i++) {        //reset the map by making all position null
             for (int j = 0; j < c; j++) {
                 posAnimal[i][j] = null;
             }
         }
-        for (int i = 0; i < zebra.size(); i++) {
+        for (int i = 0; i < zebra.size(); i++) {   //reset Zebras positions
             int x = zebra.get(i).getX();
             int y = zebra.get(i).getY();
 //            if (posAnimal[x][y] != null) {
@@ -166,21 +170,21 @@ public class Map {
 //            }
             posAnimal[x][y] = zebra.get(i);
         }
-        for (int i = 0; i < cheetah.size(); i++) {
+        for (int i = 0; i < cheetah.size(); i++) {   //reset Cheetahs positions
             int x = cheetah.get(i).getX();
             int y = cheetah.get(i).getY();
 //            if (posAnimal[x][y] != null) {
 //                System.out.println("Update cheetah: Animal at position: " + x + " " + y + " " + posAnimal[x][y].toString()  + " New animal " + cheetah.get(i).toString());
 //            }
-            posAnimal[cheetah.get(i).getX()][cheetah.get(i).getY()] = cheetah.get(i);
+            posAnimal[x][y] = cheetah.get(i);
         }
     }
-
+// printing the map after every updates
     public void printMap() {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 if (posAnimal[i][j] == null) {
-                    System.out.print("OOO"+"\t");
+                    System.out.print("O" + "\t");
                 } else {
                     System.out.print(posAnimal[i][j] + "\t");
                 }

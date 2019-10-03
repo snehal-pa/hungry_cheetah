@@ -4,12 +4,12 @@ import java.util.Random;
 
 public class Zebra extends Animal {
 
-    public Zebra(int x, int y, int r, int c, int index) {
-        super(x, y, r, c, index);
+    public Zebra(int x, int y, int r, int c) {
+        super(x, y, r, c);
     }
 
     public String toString() {
-        return String.format("%S%02d", "Z", index);
+        return String.format("Z");
     }
 //        public void move() {
 //            Random r = new Random();
@@ -82,5 +82,5 @@ public class Zebra extends Animal {
 //            //       }
 //        }
 
-    }
+}
 
