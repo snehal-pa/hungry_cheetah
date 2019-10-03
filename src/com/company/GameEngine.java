@@ -12,7 +12,7 @@ public class GameEngine {
         map.makeMap();
         map.startMoving();
         System.out.println();
-        map.printMap();
+//        map.printMap();
 
     }
 }

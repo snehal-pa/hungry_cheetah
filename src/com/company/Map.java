@@ -1,31 +1,22 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.zip.ZipFile;
 
 public class Map {
     Random random = new Random();
     private final int r = 5;
     private final int c = 5;
-    //private int[][] position = new int[r][c];
     private Animal[][] posAnimal = new Animal[r][c];
     ArrayList<Animal> zebra = new ArrayList<Animal>();
-    // Animal[] zebra;
-    Animal[] cheetah;
+    ArrayList<Animal> cheetah = new ArrayList<Animal>();
     int numAnimals;
     int numCheetah;
     int numZebra;
-    int[] oldX;
-    int[] oldY;
+    int eatenZebra = 0;
+    boolean allCheetahFull = false;
 
-    //constructor
-    public Map() {
-
-
-    }
 
     public void menu() {
         Scanner scan = new Scanner(System.in);
@@ -35,8 +26,6 @@ public class Map {
         numZebra = (numAnimals - numCheetah);
         System.out.println("Zebra:" + numZebra);
         System.out.println("Cheetah:" + numCheetah);
-        //zebra = new Zebra[numZebra];
-        cheetah = new Cheetah[numCheetah];
     }
 
     private void initializeMap() {
@@ -47,8 +36,8 @@ public class Map {
             int x = j / r;
             int y = j % c;
             if (posAnimal[x][y] == null) {
-                posAnimal[x][y] = new Cheetah(x, y, this.r, this.c);
-                cheetah[countCheetah] = posAnimal[x][y];
+                posAnimal[x][y] = new Cheetah(x, y, r, c);
+                cheetah.add(posAnimal[x][y]);
                 countCheetah++;
             }
         } while (countCheetah != numCheetah);
@@ -72,83 +61,105 @@ public class Map {
     }
 
     public void startMoving() {
-
-        moveCheetah();
-        moveZebra();
-        updateMap();
+        for (; ; ) {
+            moveCheetah();
+            moveZebra();
+            updateMap();
+            printMap();
+            if (zebra.size() < cheetah.size() || isAllCheetahFull() == true) {
+                System.out.printf("%d Zebra died", eatenZebra);
+                break;
+            }
+            System.out.println();
+        }
     }
 
+
     private void moveCheetah() {
-        for (int i = 0; i < cheetah.length; i++) {
-            cheetah[i].move();
+        for (int i = 0; i < cheetah.size(); i++) {
+            cheetah.get(i).move();
+//            cheetah.get(i).isFull()=false;
         }
-        for (int i = 0; i < cheetah.length; i++) {
-            for (int j = 0; j < zebra.size(); j++) {
-                if (cheetah[i].getX() == zebra.get(j).getX() && cheetah[i].getY() == zebra.get(j).getY() && cheetah[i].isFull() == false) {
-                    zebra.remove(zebra.get(j));
-                    System.out.println("zebra died");
-                    cheetah[i].setFull(true);
-                    System.out.printf("Full: %b%n", cheetah[i].isFull());
+        // Checking cheetah on cheetah
+        for (int i = 0; i < cheetah.size(); i++) {
+            for (int j = 0; j < cheetah.size(); j++) {
+                if (i == j) {
+                    continue;
+                }
+                if (cheetah.get(i).getX() == cheetah.get(j).getX() && cheetah.get(i).getY() == cheetah.get(j).getY()) {
+                    cheetah.get(i).setX(cheetah.get(i).getOldX());
+                    cheetah.get(i).setY(cheetah.get(i).getOldY());
                 }
             }
-            for (Animal z : zebra) {
-                System.out.print("\n" + z + "\t");
+        }
+
+        // checking Cheetah on Zebra
+        for (int i = 0; i < cheetah.size(); i++) {
+            for (int j = 0; j < zebra.size(); j++) {
+                if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && !cheetah.get(i).isFull()) {
+                    zebra.remove(zebra.get(j));
+                    System.out.println("zebra died");
+                    eatenZebra++;
+                    cheetah.get(i).setFull(true);
+                    System.out.printf("Cheetah - %d is full%n", i);
+                }
             }
         }
+        for (int i = 0; i < cheetah.size(); i++) {
+            for (int j = 0; j < zebra.size(); j++) {
+                if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && cheetah.get(i).isFull()) {
+                    cheetah.get(i).setX(cheetah.get(i).getOldX());
+                    cheetah.get(i).setY(cheetah.get(i).getOldY());
+                }
+            }
+        }
+
+    }
+
+    public boolean isAllCheetahFull() {
+        int countFullCheetah =0;
+        for (int i = 0; i < cheetah.size(); i++) {
+            if (cheetah.get(i).isFull() == true) {
+                countFullCheetah++;
+            }
+        }
+        if(cheetah.size()==countFullCheetah){
+            allCheetahFull=true;
+        }
+        return allCheetahFull;
     }
 
     private void moveZebra() {
-//        ArrayList<Animal> zeb = new ArrayList<>(Arrays.asList(zebra));
-//               zebra = zebra.toArray(new Zebra[zebra.size()]);
-//        oldX = new int[zebra.size()];
-//        oldY = new int[zebra.size()];
-//
-//        for (int i = 0; i < zebra.size(); i++) {
-//            oldX[i] = zebra.get(i).getX();
-//            oldY[i] = zebra.get(i).getY();
-//        }
-
-
         for (int i = 0; i < zebra.size(); i++) {
             zebra.get(i).move();
 
         }
-
-//        for (int i = 0; i < zebra.size(); i++) {
-//            if ((posAnimal[zebra.get(i).getX() - 1][zebra.get(i).getY()] != null)){
-//                zebra.get(i).move();
-//                if(zebra.get(i).getDir()==Position.dirUp){
-//                    zebra.get(i).setX(zebra.get(i).getX()+1);
-//                }
-//            }
-//            if ((posAnimal[zebra.get(i).getX()][zebra.get(i).getY()+1] != null)){
-//                zebra.get(i).move();
-//                if(zebra.get(i).getDir()==Position.dirRight){
-//                    zebra.get(i).setY(zebra.get(i).getY()-1);
-//                }
-//            }
-//            if ((posAnimal[zebra.get(i).getX()+1][zebra.get(i).getY()] != null)){
-//                zebra.get(i).move();
-//                if(zebra.get(i).getDir()==Position.dirDown){
-//                    zebra.get(i).setX(zebra.get(i).getX()-1);
-//                }
-//            }
-//
-//        }
-
+        // Checking zebra on zebra
         for (int i = 0; i < zebra.size(); i++) {
-            for (int j = 0; j < cheetah.length; j++) {
-                if (zebra.get(i).getX() == cheetah[j].getX() && zebra.get(i).getY() == cheetah[j].getY()) {
-                    zebra.remove(zebra.get(i));
-                    System.out.println("zebra died again");
+            for (int j = 0; j < zebra.size(); j++) {
+                if (i == j) {
+                    continue;
+                }
+                if (zebra.get(i).getX() == zebra.get(j).getX() && zebra.get(i).getY() == zebra.get(j).getY()) {
+                    zebra.get(i).setX(zebra.get(i).getOldX());
+                    zebra.get(i).setY(zebra.get(i).getOldY());
                 }
             }
         }
-        for (Animal z : zebra) {
-            System.out.print(z + "\t");
+        //checking Zebra on Cheetah
+        for (int i = 0; i < zebra.size(); i++) {
+            for (int j = 0; j < cheetah.size(); j++) {
+                if (zebra.get(i).getX() == cheetah.get(j).getX() && zebra.get(i).getY() == cheetah.get(j).getY()/* && !cheetah.get(j).isFull()*/) {
+                    zebra.get(i).setX(zebra.get(i).getOldX());
+                    zebra.get(i).setY(zebra.get(i).getOldY());
+//                    zebra.remove(zebra.get(i));
+//                    cheetah.get(j).setFull(true);
+//                    System.out.println("zebra died...");
+//                    System.out.printf("Cheetah - %d is full%n",j);
+//                    eatenZebra++;
+                }
+            }
         }
-        System.out.println();
-
     }
 
 
@@ -158,11 +169,11 @@ public class Map {
                 posAnimal[i][j] = null;
             }
         }
-        for (int i = 0; i < cheetah.length; i++) {
-            posAnimal[cheetah[i].getX()][cheetah[i].getY()] = cheetah[i];
-        }
         for (int i = 0; i < zebra.size(); i++) {
             posAnimal[zebra.get(i).getX()][zebra.get(i).getY()] = zebra.get(i);
+        }
+        for (int i = 0; i < cheetah.size(); i++) {
+            posAnimal[cheetah.get(i).getX()][cheetah.get(i).getY()] = cheetah.get(i);
         }
     }
 
@@ -184,7 +195,7 @@ public class Map {
         return zebra;
     }
 
-    public Animal[] getCheetah() {
+    public ArrayList<Animal> getCheetah() {
 
         return cheetah;
     }

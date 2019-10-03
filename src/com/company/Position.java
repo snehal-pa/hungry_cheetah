@@ -7,6 +7,5 @@ public interface Position {
      int dirDown = 2;
      int dirLeft = 3;
 
-     String toString();
-     void move();
+//     void move();
 }
