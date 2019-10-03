@@ -2,15 +2,10 @@ package com.company;
 
 import java.util.Random;
 
-public abstract class Animal implements Position {
+public abstract class Animal implements Directions {
     protected int x, oldX, y, oldY, row, col, dir;
 
-//    protected final int dirUp = 0;
-//    protected final int dirRight = 1;
-//    protected final int dirDown = 2;
-//    protected final int dirLeft = 3;
-
-    protected boolean full;
+    protected boolean full; //to ckeck Cheetah if it is full
 
     public Animal(int x, int y, int row, int col) {
         this.row = row;
@@ -47,8 +42,8 @@ public abstract class Animal implements Position {
 
         public void move() {
         Random r = new Random();
-        int dir = r.nextInt(4);
-        int numSteps;
+        int dir = r.nextInt(4); // get the random directions
+        int numSteps;                   // number of steps animals are moving
         if (dir == dirUp || dir == dirDown) {
             numSteps = r.nextInt(this.row + 1);
         } else {

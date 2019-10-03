@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        GameEngine e = new GameEngine();
-        e.startGameEngine();
+        GameLauncher e = new GameLauncher();
+        e.startGameLauncher();
     }
 
 }

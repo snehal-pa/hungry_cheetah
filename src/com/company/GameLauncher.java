@@ -2,12 +2,12 @@ package com.company;
 
 import java.util.Scanner;
 
-public class GameEngine {
+public class GameLauncher {
 
     Map map = new Map();
 
 
-    public void startGameEngine(){
+    public void startGameLauncher(){
         map.menu();
         map.makeMap();
         map.startMoving();

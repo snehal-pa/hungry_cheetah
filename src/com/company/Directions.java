@@ -1,6 +1,6 @@
 package com.company;
 
-public interface Position {
+public interface Directions {
 
      int dirUp = 0;
      int dirRight = 1;

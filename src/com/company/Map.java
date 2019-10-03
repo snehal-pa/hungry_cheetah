@@ -32,9 +32,8 @@ public class Map {
         int countCheetah = 0;
         int countZebra = 0;
         do {
-            int j = random.nextInt(r * c);
-            int x = j / r;
-            int y = j % c;
+            int x = random.nextInt(r);
+            int y = random.nextInt(c);
             if (posAnimal[x][y] == null) {
                 posAnimal[x][y] = new Cheetah(x, y, r, c);
                 cheetah.add(posAnimal[x][y]);
@@ -43,9 +42,8 @@ public class Map {
         } while (countCheetah != numCheetah);
 
         do {
-            int j = random.nextInt(r * c);
-            int x = j / r;
-            int y = j % c;
+            int x = random.nextInt(r);
+            int y = random.nextInt(c);
             if (posAnimal[x][y] == null) {
                 posAnimal[x][y] = new Zebra(x, y, this.r, this.c);
                 //zebra[countZebra] = posAnimal[x][y];
@@ -78,9 +76,9 @@ public class Map {
     private void moveCheetah() {
         for (int i = 0; i < cheetah.size(); i++) {
             cheetah.get(i).move();
-//            cheetah.get(i).isFull()=false;
         }
         // Checking cheetah on cheetah
+        //by checking positions x and y
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < cheetah.size(); j++) {
                 if (i == j) {
@@ -93,7 +91,7 @@ public class Map {
             }
         }
 
-        // checking Cheetah on Zebra
+        // checking Cheetah's move on Zebra by checking coordinates and check if Cheetah is not full
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < zebra.size(); j++) {
                 if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && !cheetah.get(i).isFull()) {
@@ -105,6 +103,7 @@ public class Map {
                 }
             }
         }
+        //checking Cheetah's move on Zebra if Cheetah is full
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < zebra.size(); j++) {
                 if (cheetah.get(i).getX() == zebra.get(j).getX() && cheetah.get(i).getY() == zebra.get(j).getY() && cheetah.get(i).isFull()) {
@@ -115,7 +114,7 @@ public class Map {
         }
 
     }
-
+//checking if all cheetahs are full
     public boolean isAllCheetahFull() {
         int countFullCheetah =0;
         for (int i = 0; i < cheetah.size(); i++) {
@@ -152,11 +151,6 @@ public class Map {
                 if (zebra.get(i).getX() == cheetah.get(j).getX() && zebra.get(i).getY() == cheetah.get(j).getY()/* && !cheetah.get(j).isFull()*/) {
                     zebra.get(i).setX(zebra.get(i).getOldX());
                     zebra.get(i).setY(zebra.get(i).getOldY());
-//                    zebra.remove(zebra.get(i));
-//                    cheetah.get(j).setFull(true);
-//                    System.out.println("zebra died...");
-//                    System.out.printf("Cheetah - %d is full%n",j);
-//                    eatenZebra++;
                 }
             }
         }
