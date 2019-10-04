@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Map {
     Random random = new Random(); //initialize an object of Random class
-    private final int r = 5; // constant value row
-    private final int c = 5; //constant value column
+    private final int r = 10; // constant value row
+    private final int c = 10; //constant value column
     private Animal[][] posAnimal = new Animal[r][c]; // 2-dimensional array of Animal class with the size of row and column
     ArrayList<Animal> zebra = new ArrayList<Animal>();  // Zebra arrayList
     ArrayList<Animal> cheetah = new ArrayList<Animal>(); //Cheetah arrayList
@@ -79,7 +79,7 @@ public class Map {
         for (int i = 0; i < cheetah.size(); i++) {
             cheetah.get(i).move();
         }
-        // Checking cheetah moving on cheetah by checking coordinate x and y
+        // Checking cheetah moving on cheetah by checking coordinates x and y
         for (int i = 0; i < cheetah.size(); i++) {
             for (int j = 0; j < cheetah.size(); j++) {
                 if (i == j) {
@@ -184,7 +184,7 @@ public class Map {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 if (posAnimal[i][j] == null) {
-                    System.out.print("O" + "\t");
+                    System.out.print("*" + "\t");
                 } else {
                     System.out.print(posAnimal[i][j] + "\t");
                 }
